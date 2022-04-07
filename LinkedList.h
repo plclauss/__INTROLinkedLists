@@ -11,6 +11,7 @@
 
 class Node {
 public:
+    Node();
     Node(int value);
 
     /* *************************** */
@@ -19,6 +20,14 @@ public:
     ~Node();
     Node(const Node& originalNode);
     Node& operator=(const Node& originalNode);
+
+    /* ************************** */
+    /* *****CUSTOM FUNCTIONS***** */
+    /* ************************** */
+    int getVal();
+    void setVal(int value);
+    Node* getAddressOfNextNode();
+    void setAddress(Node node);
 
 private:
     /*
@@ -43,5 +52,41 @@ private:
 /* ****************************** */
 /* ******CLASS: LINKED LIST****** */
 /* ****************************** */
+class LinkedList {
+public:
+    /*
+     * Note: We could do an inline definition, but all of these function
+     * definitions are held within the LinkedList.cpp file. This file plays
+     * the role of being handed to a client. They don't need to know exactly
+     * how everything works; they just need to know what functions are available
+     * to them. So, while it *WOULD* be beneficial to include descriptions of
+     * those functions here, I won't, simply because I don't want to.
+     *
+     * This class still requires a constructor, though. Just one, in case the
+     * linked list is defined first. The linked list is made up of nodes, so
+     * we only have the one constructor here. Everything else may be done with
+     * the Node class. (Except for the linked list functions, which will be
+     * implemented here, like traversal and insert).
+     */
+    LinkedList();
+
+    /* *************************** */
+    /* *****THE RULE OF THREE***** */
+    /* *************************** */
+    ~LinkedList();
+    LinkedList(const LinkedList& originalLinkedList);
+    LinkedList& operator=(const LinkedList& originalLinkedList);
+
+    /* ************************** */
+    /* *****CUSTOM FUNCTIONS***** */
+    /* ************************** */
+    Node& traverseList(int endValue);
+    int getLengthOfList();
+    void insertNode(Node nodeToInsert, int index);
+    void deleteNode(int index);
+
+private:
+    Node* head;
+};
 
 #endif //LINKEDLISTSPRACTICE_LINKEDLIST_H
