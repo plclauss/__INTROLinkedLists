@@ -17,7 +17,7 @@ public:
     /* *************************** */
     /* *****THE RULE OF THREE***** */
     /* *************************** */
-    ~Node();
+//    ~Node();
     Node(const Node& originalNode);
     Node& operator=(const Node& originalNode);
 
@@ -27,7 +27,7 @@ public:
     int getVal();
     void setVal(int value);
     Node* getAddressOfNextNode();
-    void setAddress(Node node);
+    void setAddress(Node& node);
 
 private:
     /*
@@ -73,7 +73,7 @@ public:
     /* *************************** */
     /* *****THE RULE OF THREE***** */
     /* *************************** */
-    ~LinkedList();
+//    ~LinkedList();
     LinkedList(const LinkedList& originalLinkedList);
     LinkedList& operator=(const LinkedList& originalLinkedList);
 
@@ -82,8 +82,9 @@ public:
     /* ************************** */
     Node& traverseList(int endValue);
     int getLengthOfList();
-    void insertNode(Node nodeToInsert, int index);
+    void insertNode(Node& nodeToInsert, int index);
     void deleteNode(int index);
+    void printList();
 
 private:
     Node* head;

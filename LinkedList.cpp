@@ -3,6 +3,7 @@
 //
 
 #include "LinkedList.h"
+#include <iostream>
 #include <cassert>
 
 /* *********************** */
@@ -10,33 +11,29 @@
 /* *********************** */
 // Constructors + Big Three
 Node::Node() {
-    this->value = 0;
     this->next = nullptr;
+    this->value = 0;
 }
 
 Node::Node(int value) {
+    this->next = nullptr;
     this->value = value;
 }
 
-Node::~Node() {
-    delete this;
-}
-
 Node::Node(const Node &originalNode) {
-    this->next = new Node;
-    this->next = originalNode.next;
+    next = new Node;
+    next = originalNode.next;
 
-    this->value = originalNode.value;
+    value = originalNode.value;
 }
 
 Node& Node::operator=(const Node &originalNode) {
     if (this != &originalNode) {
-        delete this->next;
-        this->next = new Node;
-        this->next = originalNode.next;
-//        *next = *originalNode.next;
+        delete next;
+        next = new Node;
+        *next = *originalNode.next;
 
-        this->value = originalNode.value;
+        value = originalNode.value;
     }
 
     return *this;
@@ -55,7 +52,9 @@ Node* Node::getAddressOfNextNode() {
     return this->next;
 }
 
-void Node::setAddress(Node node) {
+void Node::setAddress(Node& node) {
+    if (this->next == nullptr)
+        this->next = new Node;
     this->next = &node;
 }
 
@@ -65,14 +64,6 @@ void Node::setAddress(Node node) {
 // Constructors + Big Three
 LinkedList::LinkedList() {
     this->head = nullptr;
-}
-
-LinkedList::~LinkedList() {
-    while (head != nullptr) {
-        Node* nextNode = head->getAddressOfNextNode();
-        delete this->head;
-        this->head = nextNode;
-    }
 }
 
 LinkedList::LinkedList(const LinkedList &originalLinkedList) {
@@ -94,36 +85,40 @@ LinkedList &LinkedList::operator=(const LinkedList &originalLinkedList) {
 
 // Custom Functions
 Node& LinkedList::traverseList(int endValue) {
+    Node* listCopy = head;
     int counter = 0;
-    while (head) {
+
+    while (listCopy) {
         if (counter == endValue)
             break;
 
-        head = head->getAddressOfNextNode();
+        listCopy = listCopy->getAddressOfNextNode();
         counter++;
     }
 
-    return *head;
+    return *listCopy;
 }
 
 int LinkedList::getLengthOfList() {
-    int len = 0;
-    while (head) {
+    Node* listCopy = head;
+    int len = 1;
+
+    while (listCopy->getAddressOfNextNode() != nullptr) {
         len++;
-        head = head->getAddressOfNextNode();
+        listCopy = listCopy->getAddressOfNextNode();
     }
 
     return len;
 }
 
-void LinkedList::insertNode(Node nodeToInsert, int index) {
+void LinkedList::insertNode(Node& nodeToInsert, int index) {
     if (index == 0) {
-        nodeToInsert.setAddress(*head);
+        head = &nodeToInsert;
         return;
     }
 
     const int length = getLengthOfList();
-    assert((index < length) && (index >= 0));
+    assert((index <= length) && (index >= 0));
 
     nodeToInsert.setAddress(traverseList(index));
     traverseList(index - 1).setAddress(nodeToInsert);
@@ -132,7 +127,6 @@ void LinkedList::insertNode(Node nodeToInsert, int index) {
 void LinkedList::deleteNode(int index) {
     if (index == 0) {
         Node* tempNextNode = head->getAddressOfNextNode();
-        delete head;
         head = tempNextNode;
         return;
     }
@@ -140,6 +134,15 @@ void LinkedList::deleteNode(int index) {
     const int length = getLengthOfList();
     assert((index < length) && (index >= 0));
 
-    traverseList(index - 1).setAddress(traverseList(index));
-    delete &traverseList(index);
+    traverseList(index - 1).setAddress(traverseList(index + 1));
+}
+
+void LinkedList::printList() {
+    Node* copyLinkedList = head;
+
+    while (copyLinkedList) {
+        std::cout << copyLinkedList->getVal() << " --> ";
+        copyLinkedList = copyLinkedList->getAddressOfNextNode();
+    }
+    std::cout << std::endl;
 }
