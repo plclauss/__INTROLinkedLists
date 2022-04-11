@@ -43,6 +43,7 @@ private:
      *  also include a copy constructor and a copy assignment operator, and
      *  (2) When initializing a linked list, we must pass it a pointer to a node,
      *  and not the node itself.
+     *
      */
 
     int value = 0;
@@ -59,8 +60,7 @@ public:
      * definitions are held within the LinkedList.cpp file. This file plays
      * the role of being handed to a client. They don't need to know exactly
      * how everything works; they just need to know what functions are available
-     * to them. So, while it *WOULD* be beneficial to include descriptions of
-     * those functions here, I won't, simply because I don't want to.
+     * to them.
      *
      * This class still requires a constructor, though. Just one, in case the
      * linked list is defined first. The linked list is made up of nodes, so

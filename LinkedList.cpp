@@ -20,6 +20,10 @@ Node::Node(int value) {
     this->value = value;
 }
 
+//Node::~Node() {
+//    delete this->next;
+//}
+
 Node::Node(const Node &originalNode) {
     next = new Node;
     next = originalNode.next;
@@ -134,7 +138,9 @@ void LinkedList::deleteNode(int index) {
     const int length = getLengthOfList();
     assert((index < length) && (index >= 0));
 
+    Node* pointerToNodeToDelete = &traverseList(index);
     traverseList(index - 1).setAddress(traverseList(index + 1));
+    delete pointerToNodeToDelete;
 }
 
 void LinkedList::printList() {
